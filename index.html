@@ -3,43 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Culture Crunch | The Neural Interface for Care</title>
+    <title>Culture Crunch | The Leadership Operating System for Aged Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Sci-Fi Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Space Grotesk', 'monospace'], // Using for headers
                     },
                     colors: {
-                        cyber: {
-                            dark: '#020617', // Slate 950
-                            panel: '#0f172a', // Slate 900
-                            primary: '#06b6d4', // Cyan 500
-                            accent: '#8b5cf6', // Violet 500
-                            glow: '#22d3ee', // Cyan 400
+                        brand: {
+                            teal: '#0d9488', // Teal 600
+                            dark: '#1f2937', // Gray 800
+                            slate: '#334155', // Slate 700
+                            light: '#f8fafc', // Slate 50
+                            accent: '#f0fdfa', // Teal 50
                         }
                     },
-                    animation: {
-                        'float': 'float 8s ease-in-out infinite',
-                        'pulse-glow': 'pulseGlow 3s infinite',
-                        'spin-slow': 'spin 12s linear infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(6, 182, 212, 0.5)' },
-                            '50%': { opacity: 0.7, boxShadow: '0 0 10px rgba(6, 182, 212, 0.2)' },
-                        }
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
                     }
                 }
             }
@@ -47,710 +33,514 @@
     </script>
     <style>
         body {
-            background-color: #020617;
-            color: #e2e8f0;
-        }
-
-        /* Sci-Fi Glassmorphism */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(34, 211, 238, 0.1);
+            background-color: #ffffff;
+            color: #1f2937;
         }
         
-        .holo-card {
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .hero-gradient {
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
         }
 
-        .holo-card:hover {
-            border-color: rgba(34, 211, 238, 0.4);
-            box-shadow: 0 0 30px rgba(34, 211, 238, 0.15);
-            transform: translateY(-5px) scale(1.01);
+        .feature-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
         }
 
-        .text-glow {
-            text-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        /* Connecting lines for Signal Diagram */
+        .connector-line {
+            position: relative;
         }
-
-        .gradient-text {
-            background: linear-gradient(to right, #22d3ee, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Scroll Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Canvas container */
-        #canvas-container {
+        .connector-line::after {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            right: -2rem;
+            width: 2rem;
+            height: 2px;
+            background-color: #e2e8f0;
             z-index: 0;
-            pointer-events: none;
         }
-        
-        /* Grid Background Overlay */
-        .grid-bg {
-            background-image: linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+        @media (max-width: 1024px) {
+            .connector-line::after {
+                display: none;
+            }
         }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden selection:bg-cyan-900 selection:text-white">
+<body class="antialiased text-slate-800">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-panel transition-all duration-300 border-b border-white/5">
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <div class="flex items-center">
-                    <a href="#" class="flex items-center gap-3 group">
-                        <!-- Custom Logo Image with Glow -->
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-cyan-500 blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                            <img src="imagelogo.png" alt="Culture Crunch Logo" class="relative w-10 h-10 object-contain drop-shadow-md group-hover:rotate-12 transition-transform duration-500">
-                        </div>
-                        <span class="font-mono font-bold text-xl tracking-tight text-white group-hover:text-cyan-400 transition-colors">CULTURE CRUNCH<span class="text-cyan-500 text-xs align-top"></span></span>
+                <div class="flex items-center gap-12">
+                    <a href="#" class="flex items-center gap-3">
+                        <img src="imagelogo.png" alt="Culture Crunch Logo" class="w-8 h-8 object-contain">
+                        <span class="font-bold text-lg tracking-tight text-slate-900">Culture Crunch</span>
                     </a>
-                    <div class="hidden md:flex ml-12 space-x-8">
-                        <a href="#product" class="text-sm font-mono text-slate-400 hover:text-cyan-400 transition hover:tracking-wide">PRODUCT_CORE</a>
-                        <a href="#science" class="text-sm font-mono text-slate-400 hover:text-cyan-400 transition hover:tracking-wide">NEURAL_ENGINE</a>
-                        <a href="#pricing" class="text-sm font-mono text-slate-400 hover:text-cyan-400 transition hover:tracking-wide">ACCESS_TIERS</a>
-                        <a href="#team" class="text-sm font-mono text-slate-400 hover:text-cyan-400 transition hover:tracking-wide">ARCHITECTS</a>
+                    <div class="hidden md:flex space-x-8">
+                        <a href="#platform" class="text-sm font-medium text-slate-600 hover:text-teal-700 transition">Platform</a>
+                        <a href="#chris" class="text-sm font-medium text-slate-600 hover:text-teal-700 transition">Meet CHRIS</a>
+                        <a href="#science" class="text-sm font-medium text-slate-600 hover:text-teal-700 transition">Science</a>
+                        <a href="#team" class="text-sm font-medium text-slate-600 hover:text-teal-700 transition">Team</a>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="px-6 py-2.5 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 text-sm font-mono font-bold rounded hover:bg-cyan-500 hover:text-black hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all">INITIALIZE DEMO ></a>
+                    <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-lg hover:bg-teal-700 transition-all shadow-sm">Book a Demo</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
-        <!-- 3D Canvas Background -->
-        <div id="canvas-container" class="opacity-60"></div>
-        <div class="absolute inset-0 grid-bg z-0 pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-0"></div>
-
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden hero-gradient">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
                 
                 <!-- Hero Content -->
-                <div class="max-w-2xl reveal active">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-8 backdrop-blur-md">
-                        <span class="relative flex h-2 w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                        </span>
-                        SYSTEM STATUS: V2.0 ONLINE
-                    </div>
-                    <h1 class="text-5xl lg:text-7xl font-mono font-bold tracking-tight text-white leading-[1.1] mb-6 text-glow">
-                        THE OPERATING SYSTEM <br>
-                        FOR <span class="gradient-text">CARE INTELLIGENCE</span>
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 leading-[1.15] mb-6">
+                        The Leadership Operating System for Aged Care
                     </h1>
-                    <p class="text-lg text-slate-400 mb-10 leading-relaxed max-w-lg border-l-2 border-cyan-500/30 pl-6">
-                        Consultants are obsolete. Execute culture change with code. Culture Crunch acts as a neural interface for your workforce, automating leadership habits in 30 seconds/week.
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Fortnightly pulse surveys meet operational signals. Monday Briefings deliver micro-practices tailored to each leader's context. Leadership capability that compounds — one week at a time.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="px-8 py-4 bg-cyan-600 text-white font-mono font-bold rounded clip-path-polygon hover:bg-cyan-500 hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all flex items-center justify-center gap-3 group relative overflow-hidden">
-                            <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                            <span class="relative">START PILOT SEQUENCE</span>
-                            <i class="fa-solid fa-terminal text-sm relative"></i>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="px-7 py-3.5 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10">
+                            Book a Demo
                         </a>
-                        <a href="#how-it-works" class="px-8 py-4 bg-transparent border border-white/20 text-white font-mono rounded hover:bg-white/5 hover:border-cyan-400/50 transition-all flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-play text-cyan-400 text-xs"></i>
-                            VIEW SYSTEM LOGIC
+                        <a href="#how-it-works" class="px-7 py-3.5 bg-white border border-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+                            See How It Works
                         </a>
                     </div>
-                    
-                    <div class="mt-12 flex items-center gap-6 text-xs font-mono text-slate-500">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-server text-cyan-500"></i>
-                            <span>100+ NODES ACTIVE</span>
-                        </div>
-                        <div class="h-4 w-px bg-slate-800"></div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-cyan-500"></i>
-                            <span>ENCRYPTION: AES-256</span>
-                        </div>
+
+                    <div class="flex items-center gap-3 text-sm text-slate-500 font-medium">
+                        <i class="fa-solid fa-check text-teal-600"></i> 30 seconds to read
+                        <span class="mx-2 text-slate-300">|</span>
+                        <i class="fa-solid fa-check text-teal-600"></i> No workshops
+                        <span class="mx-2 text-slate-300">|</span>
+                        <i class="fa-solid fa-check text-teal-600"></i> Real behaviour change
                     </div>
                 </div>
 
-                <!-- Hero Product Mockup (Holographic Style) -->
-                <div class="relative lg:h-[650px] flex items-center justify-center reveal delay-200 perspective-1000">
-                    
-                    <!-- Main Dashboard Window -->
-                    <div class="relative w-full max-w-lg bg-slate-900/90 backdrop-blur-xl rounded-lg border border-cyan-500/20 shadow-[0_0_50px_rgba(8,145,178,0.2)] overflow-hidden animate-float transform rotate-y-6">
-                        <!-- Top Bar -->
-                        <div class="bg-slate-950/50 px-4 py-2 border-b border-cyan-500/20 flex items-center justify-between">
-                            <div class="flex gap-2">
-                                <div class="w-2 h-2 rounded-full bg-slate-700"></div>
-                                <div class="w-2 h-2 rounded-full bg-slate-700"></div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i class="fa-solid fa-lock text-[10px] text-cyan-500"></i>
-                                <span class="text-[10px] font-mono text-cyan-500 tracking-wider">SECURE CONNECTION</span>
-                            </div>
-                        </div>
+                <!-- Hero Product Mockup: Monday Briefing -->
+                <div class="relative flex justify-center lg:justify-end">
+                    <!-- Phone Frame -->
+                    <div class="relative w-[320px] bg-white rounded-[2.5rem] border-[8px] border-slate-900 shadow-2xl overflow-hidden z-10">
+                        <!-- Notch -->
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-32 bg-slate-900 rounded-b-xl z-20"></div>
                         
-                        <!-- Dashboard UI -->
-                        <div class="p-6 md:p-8 relative">
-                            <!-- Grid Background inside card -->
-                            <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#22d3ee 1px, transparent 1px), linear-gradient(90deg, #22d3ee 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        <!-- Screen Content -->
+                        <div class="h-[600px] bg-slate-50 overflow-y-auto hide-scrollbar">
+                            <!-- Header -->
+                            <div class="bg-teal-600 pt-12 pb-6 px-6 text-white">
+                                <div class="text-xs font-medium opacity-80 uppercase tracking-wider mb-1">Monday Briefing</div>
+                                <h2 class="text-xl font-bold">Good morning, Sarah</h2>
+                                <p class="text-teal-100 text-sm mt-1">Focus: Team Morale & Support</p>
+                            </div>
 
-                            <div class="relative z-10">
-                                <div class="flex justify-between items-start mb-8">
-                                    <div>
-                                        <h3 class="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-1">CULTURE PULSE_INDEX</h3>
-                                        <div class="flex items-baseline gap-2">
-                                            <span class="text-5xl font-mono font-bold text-white text-glow">8.4</span>
-                                            <span class="px-2 py-0.5 rounded border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-[10px] font-mono">OPTIMAL</span>
+                            <!-- Insight Card -->
+                            <div class="p-4 space-y-4">
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="fa-solid fa-chart-simple text-teal-600 text-sm"></i>
+                                        <span class="text-xs font-bold text-slate-500 uppercase">The Signal</span>
+                                    </div>
+                                    <p class="text-sm text-slate-700 leading-relaxed">
+                                        Your team's "Support" score dipped 12% last fortnight, coinciding with high PM shift absenteeism.
+                                    </p>
+                                </div>
+
+                                <!-- Action Card -->
+                                <div class="bg-white p-4 rounded-xl shadow-soft border-l-4 border-teal-500">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 text-xs">
+                                            <i class="fa-solid fa-lightbulb"></i>
                                         </div>
+                                        <span class="text-sm font-bold text-slate-800">This Week's Micro-Practice</span>
                                     </div>
-                                    <div class="w-8 h-8 rounded border border-cyan-500/30 flex items-center justify-center animate-pulse">
-                                        <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                                    </div>
+                                    <h3 class="font-bold text-slate-900 mb-2">The "Crossover" Check-in</h3>
+                                    <p class="text-sm text-slate-600 mb-4">
+                                        Stay 10 minutes late on Tuesday. Ask the incoming PM RN: "What is one thing I can do to make your shift smoother tonight?"
+                                    </p>
+                                    <button class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded transition-colors">
+                                        Commit to Practice
+                                    </button>
                                 </div>
                                 
-                                <!-- Graph Bars -->
-                                <div class="flex items-end gap-3 h-40 mb-8 px-2 border-b border-white/5 pb-2">
-                                    <div class="w-full bg-slate-800 rounded-sm h-[40%] relative overflow-hidden"><div class="absolute bottom-0 w-full h-1 bg-cyan-900"></div></div>
-                                    <div class="w-full bg-slate-800 rounded-sm h-[55%] relative overflow-hidden"><div class="absolute bottom-0 w-full h-1 bg-cyan-900"></div></div>
-                                    <div class="w-full bg-slate-800 rounded-sm h-[45%] relative overflow-hidden"><div class="absolute bottom-0 w-full h-1 bg-cyan-900"></div></div>
-                                    <div class="w-full bg-slate-800 rounded-sm h-[70%] relative overflow-hidden"><div class="absolute bottom-0 w-full h-1 bg-cyan-900"></div></div>
-                                    <div class="w-full bg-cyan-500/50 rounded-sm h-[85%] shadow-[0_0_15px_rgba(34,211,238,0.3)] relative overflow-hidden"><div class="absolute bottom-0 w-full h-1 bg-cyan-400"></div></div>
-                                    <div class="w-full bg-cyan-400 rounded-sm h-[92%] relative group shadow-[0_0_20px_rgba(34,211,238,0.5)]">
-                                        <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
-                                    </div>
-                                </div>
-
-                                <!-- AI Card -->
-                                <div class="bg-slate-800/50 rounded border border-indigo-500/30 p-4 relative overflow-hidden">
-                                    <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
-                                    <div class="flex gap-4">
-                                        <div class="mt-1 w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0 text-sm border border-indigo-500/30">
-                                            <i class="fa-solid fa-microchip"></i>
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs font-mono font-bold text-indigo-300 flex items-center gap-2 mb-2">
-                                                AI_ANALYSIS_COMPLETE
-                                            </h4>
-                                            <p class="text-xs text-slate-300 leading-relaxed font-mono">
-                                                >> DETECTED: Night shift morale decay (-4%). <br>
-                                                >> PROTOCOL: Init crossover meeting [Thursday 0800].
-                                            </p>
-                                        </div>
-                                    </div>
+                                <div class="text-center">
+                                    <span class="text-[10px] text-slate-400">Powered by CHRIS Engine</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Floating Elements for Depth -->
-                    <div class="absolute -right-8 bottom-32 bg-slate-900/90 backdrop-blur rounded border border-emerald-500/30 p-4 shadow-xl animate-float delay-700" style="animation-duration: 6s;">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded-full border border-emerald-500 flex items-center justify-center text-emerald-500 text-xs shadow-[0_0_10px_rgba(16,185,129,0.4)]">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <div>
-                                <div class="text-[10px] text-slate-400 font-mono">SUBROUTINE</div>
-                                <div class="text-xs font-bold text-white font-mono">ACTION EXECUTED</div>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    <!-- Decor elements -->
+                    <div class="absolute -right-12 top-1/2 -translate-y-1/2 w-64 h-64 bg-teal-50 rounded-full blur-3xl -z-10"></div>
+                    <div class="absolute -left-12 bottom-0 w-48 h-48 bg-blue-50 rounded-full blur-3xl -z-10"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Trusted By (Tech Partner Style) -->
-    <section class="py-12 bg-slate-950 border-y border-white/5 reveal">
+    <!-- Social Proof (Truthful) -->
+    <section class="py-10 bg-white border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-[10px] font-mono tracking-[0.3em] text-cyan-500/70 uppercase mb-10">Deploying Intelligence At:</p>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-                <div class="flex items-center justify-center group"><span class="text-xl font-bold font-mono text-white tracking-tighter">CARE<span class="text-cyan-500">FIRST</span></span></div>
-                <div class="flex items-center justify-center group"><span class="text-xl font-bold font-mono text-white tracking-tighter">UNITY<span class="text-emerald-500">HEALTH</span></span></div>
-                <div class="flex items-center justify-center group"><span class="text-xl font-bold font-mono text-white tracking-tighter">APEX<span class="text-indigo-500">LIVING</span></span></div>
-                <div class="flex items-center justify-center group"><span class="text-xl font-bold font-mono text-white tracking-tighter">SILVER<span class="text-slate-500">LINE</span></span></div>
+            <p class="text-sm font-medium text-slate-500">Currently piloting with residential aged care providers in NSW</p>
+        </div>
+    </section>
+
+    <!-- Signal Convergence (Tech Credibility for Google) -->
+    <section class="py-20 bg-slate-50" id="platform">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Signal Convergence Engine</h2>
+                <p class="text-lg text-slate-600">Culture Crunch is a platform, not a survey. We ingest multiple data streams to detect patterns human consultants miss.</p>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="flex flex-col lg:flex-row items-stretch justify-center gap-8 lg:gap-0 relative">
+                
+                <!-- Input Column -->
+                <div class="flex flex-col gap-4 w-full lg:w-1/3 connector-line pr-0 lg:pr-8">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 text-center lg:text-left">Operational Signals</div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-user-clock"></i></div>
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Rostering Data</div>
+                            <div class="text-xs text-slate-500">Shift patterns, Overtime</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-purple-50 text-purple-600 flex items-center justify-center"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">HR Systems</div>
+                            <div class="text-xs text-slate-500">Tenure, Turnover, Leave</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-teal-50 text-teal-600 flex items-center justify-center"><i class="fa-solid fa-comment-dots"></i></div>
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Pulse Surveys</div>
+                            <div class="text-xs text-slate-500">Fortnightly Sentiment</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-red-50 text-red-600 flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Incident Reports</div>
+                            <div class="text-xs text-slate-500">Near-misses, Complaints</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Core -->
+                <div class="w-full lg:w-1/3 flex flex-col items-center justify-center py-8 lg:py-0 connector-line z-10">
+                    <div class="bg-slate-900 text-white p-8 rounded-2xl shadow-xl w-full text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-teal-500 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl shadow-lg shadow-teal-500/30">
+                                <i class="fa-solid fa-brain text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">CHRIS Engine</h3>
+                            <p class="text-slate-300 text-sm mb-4">ML Pattern Detection</p>
+                            <div class="inline-flex items-center gap-2 bg-slate-800 px-3 py-1 rounded text-xs text-teal-400 font-mono">
+                                <i class="fa-solid fa-arrows-spin fa-spin-pulse"></i> Converging Signals
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Column -->
+                <div class="w-full lg:w-1/3 pl-0 lg:pl-8 flex flex-col justify-center">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 text-center lg:text-left">Targeted Output</div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-card border-l-4 border-teal-500">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="font-bold text-slate-900">Monday Briefing</div>
+                            <span class="bg-teal-50 text-teal-700 text-[10px] font-bold px-2 py-1 rounded uppercase">Personalized</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">One micro-practice tailored to specific friction points detected in that facility for that week.</p>
+                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
+                            <i class="fa-solid fa-mobile-screen"></i> Delivered via SMS/Web
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-sm text-slate-500 font-medium">Integration-ready via API. Australian-hosted. Bank-grade security.</p>
             </div>
         </div>
     </section>
 
-    <!-- Comparison Section -->
-    <section class="py-24 bg-slate-950 relative" id="product">
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950 pointer-events-none"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <span class="text-cyan-500 font-mono text-xs mb-2 block tracking-widest">SYSTEM EVOLUTION</span>
-                <h2 class="text-3xl md:text-4xl font-mono font-bold text-white mb-6">LEGACY VS <span class="text-cyan-400">NEXT-GEN</span></h2>
-                <p class="text-slate-400">Traditional consultancy is analog, slow, and unscalable. We digitized the process into an always-on engine.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
-                <!-- Legacy Card -->
-                <div class="holo-card p-8 lg:p-10 rounded-lg relative overflow-hidden group reveal">
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 bg-red-500/10 text-red-500 rounded border border-red-500/20 flex items-center justify-center text-xl mb-8">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
+    <!-- Meet CHRIS -->
+    <section class="py-20 bg-white" id="chris">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                        <!-- Chat Bubble Mockup -->
+                        <div class="flex gap-4 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold flex-shrink-0">C</div>
+                            <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 text-sm text-slate-700">
+                                <p class="mb-2"><strong>CHRIS:</strong> Hi Mark. Based on last week's rostering data, your team is running high on overtime. This often correlates with a drop in patience.</p>
+                                <p>Try this: Start your handover today by acknowledging the extra hours explicitly.</p>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-mono font-bold text-slate-200 mb-6">LEGACY CONSULTING</h3>
-                        <ul class="space-y-5 font-mono text-sm">
-                            <li class="flex items-start gap-4 text-slate-400">
-                                <span class="text-red-500">>></span> Annual Latency (Data Expired)
-                            </li>
-                            <li class="flex items-start gap-4 text-slate-400">
-                                <span class="text-red-500">>></span> High Cost / Low Retention
-                            </li>
-                            <li class="flex items-start gap-4 text-slate-400">
-                                <span class="text-red-500">>></span> Subjective Input Only
-                            </li>
-                        </ul>
+                        <div class="flex gap-4 flex-row-reverse">
+                            <div class="w-10 h-10 rounded-full bg-slate-300 flex items-center justify-center text-white font-bold flex-shrink-0">M</div>
+                            <div class="bg-teal-50 p-4 rounded-2xl rounded-tr-none text-sm text-slate-800">
+                                <p>That won't work today, we have an audit coming up.</p>
+                            </div>
+                        </div>
+                         <div class="flex gap-4 mt-6">
+                            <div class="w-10 h-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold flex-shrink-0">C</div>
+                            <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 text-sm text-slate-700">
+                                <p>Understood. Let's pivot to a "Quick Win" focus instead. Here is an alternative practice...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Next-Gen Card -->
-                <div class="holo-card p-8 lg:p-10 rounded-lg relative overflow-hidden group reveal border-cyan-500/30">
-                    <div class="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20 flex items-center justify-center text-xl mb-8 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
-                            <i class="fa-solid fa-network-wired"></i>
-                        </div>
-                        <h3 class="text-xl font-mono font-bold text-white mb-6">DIGITAL PLATFORM</h3>
-                        <ul class="space-y-5 font-mono text-sm">
-                            <li class="flex items-start gap-4 text-cyan-100">
-                                <span class="text-cyan-500">>></span> Real-Time Pulse Telemetry
-                            </li>
-                            <li class="flex items-start gap-4 text-cyan-100">
-                                <span class="text-cyan-500">>></span> AI-Driven Micro-Interventions
-                            </li>
-                            <li class="flex items-start gap-4 text-cyan-100">
-                                <span class="text-cyan-500">>></span> 30-Second Execution Time
-                            </li>
-                        </ul>
-                    </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6">Meet CHRIS — Your AI Leadership Coach</h2>
+                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                        Every Monday morning, CHRIS delivers a briefing to each leader. Not generic advice — a single micro-practice tailored to their signals from the past fortnight.
+                    </p>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        When leaders adapt a practice ("that won't work here because..."), CHRIS helps rework it. Over time, each leader builds a personal toolkit — practices that stuck, adapted to their context.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed font-medium">
+                        CHRIS gets smarter as more leaders engage. The accumulated practical wisdom becomes your competitive advantage.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Visual Workflow -->
-    <section class="py-24 bg-slate-900 relative overflow-hidden" id="how-it-works">
-        <!-- Tech Background Lines -->
-        <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(0deg, transparent 24%, rgba(34, 211, 238, .3) 25%, rgba(34, 211, 238, .3) 26%, transparent 27%, transparent 74%, rgba(34, 211, 238, .3) 75%, rgba(34, 211, 238, .3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(34, 211, 238, .3) 25%, rgba(34, 211, 238, .3) 26%, transparent 27%, transparent 74%, rgba(34, 211, 238, .3) 75%, rgba(34, 211, 238, .3) 76%, transparent 77%, transparent); background-size: 50px 50px;"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-20 reveal">
-                <h2 class="text-3xl lg:text-4xl font-mono font-bold text-white">THE ALGORITHM</h2>
-                <div class="h-1 w-20 bg-cyan-500 mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
+    <!-- Core Modules -->
+    <section class="py-20 bg-slate-50" id="science">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Core Modules</h2>
+                <p class="text-slate-600">A precision toolkit engineered for the velocity of Aged Care.</p>
             </div>
 
-            <!-- Steps -->
-            <div class="relative grid lg:grid-cols-3 gap-12 lg:gap-8">
-                <!-- Connector Line -->
-                <div class="hidden lg:block absolute top-12 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-soft border border-slate-100 feature-card">
+                    <div class="w-12 h-12 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i class="fa-solid fa-house-medical text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Built for Aged Care</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Designed for fast-moving, under-resourced environments where leadership impact is felt instantly.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-soft border border-slate-100 feature-card">
+                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-700 mb-6">
+                        <i class="fa-solid fa-arrows-rotate text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Weekly Rhythms</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Leaders improve every 7 days. Not annual reviews. Not quarterly offsites. Weekly habit formation.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-soft border border-slate-100 feature-card">
+                    <div class="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center text-amber-700 mb-6">
+                        <i class="fa-solid fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">30 Seconds a Week</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">No workshops. No consultants. No LMS modules. One micro-practice. Monday morning.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white p-8 rounded-xl shadow-soft border border-slate-100 feature-card">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-700 mb-6">
+                        <i class="fa-solid fa-flask text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Grounded in Evidence</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">60,000+ data points. 32 leadership models. Trust, engagement, and retention science.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white p-8 rounded-xl shadow-soft border border-slate-100 feature-card">
+                    <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center text-red-700 mb-6">
+                        <i class="fa-solid fa-satellite-dish text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Early Warning Signals</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Catch burnout, conflict, and turnover risk before they manifest as claims.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-white p-8 rounded-xl shadow-soft border border-slate-100 feature-card">
+                    <div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-700 mb-6">
+                        <i class="fa-solid fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">2% Retention Pays for Itself</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">The maths is simple. One fewer resignation covers the platform cost.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 bg-white border-t border-slate-100" id="how-it-works">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">How It Works</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <!-- Connector Line (Desktop) -->
+                <div class="hidden md:block absolute top-8 left-[12%] right-[12%] h-0.5 bg-slate-100 z-0"></div>
 
                 <!-- Step 1 -->
-                <div class="relative flex flex-col items-center text-center reveal holo-card p-8 rounded-lg group">
-                    <div class="w-20 h-20 bg-slate-900 rounded-full border border-cyan-500/50 flex items-center justify-center text-2xl text-cyan-400 mb-6 relative z-10 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-                        <i class="fa-solid fa-satellite-dish"></i>
-                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-cyan-500 rounded-full text-black text-xs font-bold flex items-center justify-center">1</div>
-                    </div>
-                    <h3 class="text-lg font-mono font-bold text-white mb-3">DATA INGESTION</h3>
-                    <p class="text-slate-400 text-sm">Staff input pulse data via encrypted SMS tokens. No login friction.</p>
+                <div class="relative z-10 text-center">
+                    <div class="w-16 h-16 mx-auto bg-white border-2 border-teal-500 text-teal-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">1</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Pulse</h3>
+                    <p class="text-sm text-slate-600">Fortnightly 2-minute surveys via SMS. No login friction.</p>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="relative flex flex-col items-center text-center reveal delay-100 holo-card p-8 rounded-lg group">
-                    <div class="w-20 h-20 bg-slate-900 rounded-full border border-violet-500/50 flex items-center justify-center text-2xl text-violet-400 mb-6 relative z-10 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
-                        <i class="fa-solid fa-brain"></i>
-                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-violet-500 rounded-full text-white text-xs font-bold flex items-center justify-center">2</div>
-                    </div>
-                    <h3 class="text-lg font-mono font-bold text-white mb-3">NEURAL PROCESSING</h3>
-                    <p class="text-slate-400 text-sm">Engine identifies perception gaps between leadership nodes and frontline staff.</p>
+                <div class="relative z-10 text-center">
+                    <div class="w-16 h-16 mx-auto bg-white border-2 border-teal-500 text-teal-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">2</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Converge</h3>
+                    <p class="text-sm text-slate-600">Pulse data meets operational signals (rosters, HR) for pattern detection.</p>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="relative flex flex-col items-center text-center reveal delay-200 holo-card p-8 rounded-lg group">
-                    <div class="w-20 h-20 bg-slate-900 rounded-full border border-emerald-500/50 flex items-center justify-center text-2xl text-emerald-400 mb-6 relative z-10 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-                        <i class="fa-solid fa-code-branch"></i>
-                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full text-black text-xs font-bold flex items-center justify-center">3</div>
-                    </div>
-                    <h3 class="text-lg font-mono font-bold text-white mb-3">PROTOCOL DEPLOYMENT</h3>
-                    <p class="text-slate-400 text-sm">Leader receives a targeted behaviour protocol (micro-action) to optimize the node.</p>
+                <div class="relative z-10 text-center">
+                    <div class="w-16 h-16 mx-auto bg-white border-2 border-teal-500 text-teal-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">3</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Brief</h3>
+                    <p class="text-sm text-slate-600">Monday Briefings arrive. One tailored micro-practice per leader.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative z-10 text-center">
+                    <div class="w-16 h-16 mx-auto bg-white border-2 border-teal-500 text-teal-600 rounded-full flex items-center justify-center text-xl font-bold mb-6">4</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Adapt</h3>
+                    <p class="text-sm text-slate-600">Leaders apply and refine. CHRIS learns what works in your context.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Dark Feature Grid -->
-    <section class="py-24 bg-slate-950 relative overflow-hidden" id="science">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="mb-16 reveal">
-                <h2 class="text-3xl lg:text-4xl font-mono font-bold mb-4 text-white">CORE MODULES</h2>
-                <p class="text-slate-400 max-w-2xl font-mono">A precision toolkit engineered for the velocity of Aged Care.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Feature Cards -->
-                <div class="holo-card p-6 rounded group reveal">
-                    <div class="w-10 h-10 bg-cyan-900/30 rounded border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 group-hover:bg-cyan-500/20 transition-colors">
-                        <i class="fa-solid fa-house-medical"></i>
-                    </div>
-                    <h3 class="text-lg font-bold font-mono text-white mb-2 uppercase">Built for Aged Care</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed font-mono">Designed for fast-moving, under-resourced environments where leadership impact is felt instantly.</p>
-                </div>
-
-                <div class="holo-card p-6 rounded group reveal delay-100">
-                    <div class="w-10 h-10 bg-indigo-900/30 rounded border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4 group-hover:bg-indigo-500/20 transition-colors">
-                        <i class="fa-solid fa-calendar-week"></i>
-                    </div>
-                    <h3 class="text-lg font-bold font-mono text-white mb-2 uppercase">Weekly Behaviour Change</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed font-mono">Leaders improve every 7 days. No other solution delivers this frequency. Not annual reviews.</p>
-                </div>
-
-                <div class="holo-card p-6 rounded group reveal delay-200">
-                    <div class="w-10 h-10 bg-emerald-900/30 rounded border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4 group-hover:bg-emerald-500/20 transition-colors">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                    <h3 class="text-lg font-bold font-mono text-white mb-2 uppercase">Zero Extra Workload</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed font-mono">30 seconds. No workshops. No consultants. No LMS. No extra admin.</p>
-                </div>
-
-                <div class="holo-card p-6 rounded group reveal">
-                    <div class="w-10 h-10 bg-amber-900/30 rounded border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4 group-hover:bg-amber-500/20 transition-colors">
-                        <i class="fa-solid fa-atom"></i>
-                    </div>
-                    <h3 class="text-lg font-bold font-mono text-white mb-2 uppercase">Leadership Science</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed font-mono">Grounded in 60,000 datapoints, 32 leadership models, trust, teamwork, engagement & retention science.</p>
-                </div>
-
-                <div class="holo-card p-6 rounded group reveal delay-100">
-                    <div class="w-10 h-10 bg-red-900/30 rounded border border-red-500/30 flex items-center justify-center text-red-400 mb-4 group-hover:bg-red-500/20 transition-colors">
-                        <i class="fa-solid fa-satellite-dish"></i>
-                    </div>
-                    <h3 class="text-lg font-bold font-mono text-white mb-2 uppercase">High-Frequency Insight</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed font-mono">Catch risk early - burnout, conflict, disengagement, turnover signals.</p>
-                </div>
-
-                <div class="holo-card p-6 rounded group reveal delay-200">
-                    <div class="w-10 h-10 bg-violet-900/30 rounded border border-violet-500/30 flex items-center justify-center text-violet-400 mb-4 group-hover:bg-violet-500/20 transition-colors">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-lg font-bold font-mono text-white mb-2 uppercase">Immediate ROI</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed font-mono">A 2% improvement in retention pays for the entire platform.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Founders (Verification) -->
-    <section class="py-24 bg-slate-900 border-t border-white/5" id="team">
+    <!-- Team (Real Profiles) -->
+    <section class="py-20 bg-slate-50" id="team">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl font-mono font-bold text-white">SYSTEM ARCHITECTS</h2>
-                <p class="text-cyan-500 font-mono mt-2">60+ Years Combined Industry Computation</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Founders</h2>
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-                <!-- Founder 1 -->
-                <div class="holo-card p-8 rounded-lg flex flex-col items-center text-center reveal">
-                    <div class="w-32 h-32 rounded-full mb-6 p-1 border-2 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.3)]">
-                        <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden relative">
-                             <i class="fa-solid fa-user-astronaut text-4xl text-slate-500"></i>
-                             <!-- Using icon as placeholder, would be real image -->
-                        </div>
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto bg-slate-200 rounded-full mb-6 flex items-center justify-center text-4xl text-slate-400">
+                        <i class="fa-solid fa-user"></i>
                     </div>
-                    <a href="https://www.linkedin.com/in/campbell-mcglynn-0b107113/" target="_blank" class="hover:text-cyan-400 transition">
-                        <h3 class="text-xl font-mono font-bold text-white">Campbell McGlynn</h3>
-                    </a>
-                    <span class="text-cyan-500 font-mono text-xs mb-4">CEO // DOMAIN EXPERT</span>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">
-                        Former EGM of People & Culture (IRT Group). Identified the critical failure in analog consulting. Engineered the behavioral logic behind Culture Crunch.
+                    <h3 class="text-xl font-bold text-slate-900">Campbell McGlynn</h3>
+                    <div class="text-teal-600 font-medium mb-4">Co-founder & CEO</div>
+                    <p class="text-sm text-slate-600 max-w-xs mx-auto">
+                        20 years in HR. 6 years as Chief People Officer in aged care. Built Culture Crunch after watching annual surveys fail the leaders who needed help most.
                     </p>
                 </div>
 
-                <!-- Founder 2 -->
-                <div class="holo-card p-8 rounded-lg flex flex-col items-center text-center reveal delay-100">
-                     <div class="w-32 h-32 rounded-full mb-6 p-1 border-2 border-violet-500/50 shadow-[0_0_20px_rgba(139,92,246,0.3)]">
-                        <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden relative">
-                             <i class="fa-solid fa-code text-4xl text-slate-500"></i>
-                        </div>
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto bg-slate-200 rounded-full mb-6 flex items-center justify-center text-4xl text-slate-400">
+                        <i class="fa-solid fa-code"></i>
                     </div>
-                    <a href="https://www.linkedin.com/in/ivan2sanchez/" target="_blank" class="hover:text-cyan-400 transition">
-                        <h3 class="text-xl font-mono font-bold text-white">Ivan Sanchez</h3>
-                    </a>
-                    <span class="text-violet-500 font-mono text-xs mb-4">CTO // SYSTEMS LEAD</span>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">
-                        Enterprise Technologist (16+ Years). Architected the platform to bridge complex data analytics with frontline usability.
+                    <h3 class="text-xl font-bold text-slate-900">Ivan Sanchez</h3>
+                    <div class="text-teal-600 font-medium mb-4">Co-founder & CTO</div>
+                    <p class="text-sm text-slate-600 max-w-xs mx-auto">
+                        16 years in enterprise technology. Designed the platform to bridge complex analytics with frontline usability.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing / Business Model Verification -->
-    <section class="py-24 bg-slate-950 border-t border-white/5" id="pricing">
+    <!-- Pricing (SaaS Model) -->
+    <section class="py-20 bg-white border-t border-slate-100" id="pricing">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl font-mono font-bold text-white">DEPLOYMENT TIERS</h2>
-                <p class="text-slate-400 mt-2">Scalable SaaS Licensing</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Scalable Deployment</h2>
+                <p class="text-slate-600 mt-2">Start small, validate, then scale.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Pilot Plan -->
-                <div class="holo-card p-8 rounded-lg reveal">
-                    <h3 class="text-xl font-mono font-bold text-white">PILOT NODE</h3>
-                    <p class="text-xs text-slate-500 font-mono mt-1 mb-6">VALIDATION PHASE</p>
-                    <div class="mb-8">
-                        <span class="text-3xl font-bold text-cyan-400 font-mono">30-DAY ACCESS</span>
-                    </div>
-                    <ul class="space-y-4 mb-8 text-sm font-mono text-slate-300">
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-cyan-500"></i> Single Facility
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-cyan-500"></i> Full AI Engine Access
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-cyan-500"></i> Unlimited Users
-                        </li>
+                <!-- Pilot -->
+                <div class="bg-white border border-slate-200 rounded-xl p-8 hover:border-teal-500 transition-colors shadow-soft">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Pilot Program</h3>
+                    <p class="text-sm text-slate-500 mb-6">Validation Phase</p>
+                    <ul class="space-y-4 mb-8 text-sm text-slate-600">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-teal-600"></i> Single Facility</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-teal-600"></i> Full Platform Access</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-teal-600"></i> 30-Day Validation</li>
                     </ul>
-                    <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="block w-full py-3 bg-transparent border border-cyan-500 text-cyan-400 font-mono text-center rounded hover:bg-cyan-500/10 hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all">INITIATE PILOT</a>
+                    <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="block w-full py-3 bg-white border-2 border-teal-600 text-teal-700 font-bold text-center rounded-lg hover:bg-teal-50 transition-colors">Start a Pilot</a>
                 </div>
 
-                <!-- Enterprise Plan -->
-                <div class="holo-card p-8 rounded-lg reveal delay-100 border-violet-500/30">
-                    <div class="absolute top-0 right-0 bg-violet-600 text-white text-[10px] font-bold px-3 py-1 font-mono rounded-bl">RECOMMENDED</div>
-                    <h3 class="text-xl font-mono font-bold text-white">ENTERPRISE NETWORK</h3>
-                    <p class="text-xs text-slate-500 font-mono mt-1 mb-6">FULL SCALE DEPLOYMENT</p>
-                    <div class="mb-8">
-                        <span class="text-3xl font-bold text-violet-400 font-mono">VOLUME LICENSE</span>
-                    </div>
-                    <ul class="space-y-4 mb-8 text-sm font-mono text-slate-300">
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-violet-500"></i> Multi-Site Dashboard
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-violet-500"></i> Cross-Facility Benchmarking
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-violet-500"></i> Dedicated Support Uplink
-                        </li>
+                <!-- Enterprise -->
+                <div class="bg-slate-900 rounded-xl p-8 shadow-xl text-white relative">
+                    <div class="absolute top-0 right-0 bg-teal-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl rounded-tr-xl uppercase tracking-wider">Recommended</div>
+                    <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                    <p class="text-sm text-slate-400 mb-6">Full Scale Deployment</p>
+                    <ul class="space-y-4 mb-8 text-sm text-slate-300">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-teal-400"></i> Multi-site Dashboard</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-teal-400"></i> Cross-facility Benchmarking</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-teal-400"></i> Dedicated Support</li>
                     </ul>
-                    <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="block w-full py-3 bg-violet-600 text-white font-mono text-center rounded hover:bg-violet-500 hover:shadow-[0_0_15px_rgba(139,92,246,0.4)] transition-all">CONTACT SALES</a>
+                    <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="block w-full py-3 bg-teal-600 text-white font-bold text-center rounded-lg hover:bg-teal-700 transition-colors">Talk to Us</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black text-slate-500 py-16 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-12 text-sm">
+    <footer class="bg-white border-t border-slate-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
             <div class="col-span-1 md:col-span-1">
-                <div class="flex items-center gap-3 mb-6">
-                    <img src="imagelogo.png" alt="Culture Crunch Logo" class="w-8 h-8 object-contain">
-                    <span class="font-bold text-white text-lg font-mono tracking-tighter">CULTURE_CRUNCH</span>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="imagelogo.png" alt="Culture Crunch Logo" class="w-6 h-6 object-contain grayscale opacity-80">
+                    <span class="font-bold text-slate-900 text-sm">Culture Crunch</span>
                 </div>
-                <p class="leading-relaxed text-xs">The Neural Interface for Aged Care Leadership. <br>System Status: Active.</p>
+                <p class="text-xs text-slate-500 leading-relaxed">The Leadership Operating System for Aged Care. <br>Bank-grade encryption. Australian data sovereignty.</p>
             </div>
             
             <div>
-                <h4 class="text-white font-bold mb-6 font-mono tracking-widest text-xs">SYSTEM</h4>
-                <ul class="space-y-3 text-xs font-mono">
-                    <li><a href="#science" class="hover:text-cyan-400 transition-colors">>> Modules</a></li>
-                    <li><a href="#how-it-works" class="hover:text-cyan-400 transition-colors">>> Algorithm</a></li>
-                    <li><a href="#pricing" class="hover:text-cyan-400 transition-colors">>> Access</a></li>
+                <h4 class="font-bold text-slate-900 text-sm mb-4">Platform</h4>
+                <ul class="space-y-2 text-xs text-slate-500">
+                    <li><a href="#platform" class="hover:text-teal-600">Signal Engine</a></li>
+                    <li><a href="#science" class="hover:text-teal-600">Core Modules</a></li>
+                    <li><a href="#pricing" class="hover:text-teal-600">Pricing</a></li>
                 </ul>
             </div>
 
             <div>
-                <h4 class="text-white font-bold mb-6 font-mono tracking-widest text-xs">ENTITY</h4>
-                <ul class="space-y-3 text-xs font-mono">
-                    <li><a href="#team" class="hover:text-cyan-400 transition-colors">>> Architects</a></li>
-                    <li><a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="hover:text-cyan-400 transition-colors">>> Comm Link</a></li>
+                <h4 class="font-bold text-slate-900 text-sm mb-4">Company</h4>
+                <ul class="space-y-2 text-xs text-slate-500">
+                    <li><a href="#team" class="hover:text-teal-600">Team</a></li>
+                    <li><a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="hover:text-teal-600">Contact</a></li>
                 </ul>
             </div>
-
-            <div>
-                <h4 class="text-white font-bold mb-6 font-mono tracking-widest text-xs">INITIALIZE</h4>
-                <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="inline-block px-4 py-2 bg-slate-900 border border-slate-700 text-white text-xs font-bold rounded hover:border-cyan-500 hover:text-cyan-400 transition-all font-mono">BOOK DEMO</a>
+             <div>
+                 <h4 class="font-bold text-slate-900 text-sm mb-4">Get Started</h4>
+                 <a href="https://calendar.app.google/VrRqXF8Da4BWzi7P9" target="_blank" class="text-xs font-bold text-teal-700 hover:text-teal-800">Book a Demo &rarr;</a>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-slate-900 text-center text-xs font-mono text-slate-700">
-            <p>&copy; 2026 Culture Crunch Pty Ltd. All systems operational.</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-100 text-center">
+            <p class="text-xs text-slate-400">&copy; 2026 Culture Crunch Pty Ltd.</p>
         </div>
     </footer>
 
-    <!-- Three.js & Animation Logic -->
-    <script>
-        // --- 1. Three.js Sci-Fi Globe/Network ---
-        const initThreeJS = () => {
-            const container = document.getElementById('canvas-container');
-            if (!container) return;
-
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x020617, 0.002); // Fog matches background
-            
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 35;
-            camera.position.y = 5;
-
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(renderer.domElement);
-
-            // Create Globe of Particles
-            const particleCount = 600;
-            const globeGeometry = new THREE.BufferGeometry();
-            const positions = [];
-            const colors = [];
-            const colorObj = new THREE.Color();
-
-            const radius = 20;
-
-            for (let i = 0; i < particleCount; i++) {
-                // Spherical distribution
-                const phi = Math.acos(-1 + (2 * i) / particleCount);
-                const theta = Math.sqrt(particleCount * Math.PI) * phi;
-
-                const x = radius * Math.cos(theta) * Math.sin(phi);
-                const y = radius * Math.sin(theta) * Math.sin(phi);
-                const z = radius * Math.cos(phi);
-
-                positions.push(x, y, z);
-
-                // Cyan to Violet gradient
-                if (Math.random() > 0.5) {
-                    colorObj.setHex(0x22d3ee); // Cyan
-                } else {
-                    colorObj.setHex(0x8b5cf6); // Violet
-                }
-                colors.push(colorObj.r, colorObj.g, colorObj.b);
-            }
-
-            globeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            globeGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-            const particleMaterial = new THREE.PointsMaterial({
-                size: 0.2,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.8,
-                blending: THREE.AdditiveBlending
-            });
-
-            const globe = new THREE.Points(globeGeometry, particleMaterial);
-            scene.add(globe);
-
-            // Outer connecting lines (The Neural Network)
-            const lineMaterial = new THREE.LineBasicMaterial({
-                color: 0x22d3ee,
-                transparent: true,
-                opacity: 0.05,
-                blending: THREE.AdditiveBlending
-            });
-            
-            // Just create random connections for a "neural" look
-            const lineGeo = new THREE.BufferGeometry();
-            const linePos = [];
-            for (let i = 0; i < 300; i++) {
-                const idx1 = Math.floor(Math.random() * particleCount) * 3;
-                const idx2 = Math.floor(Math.random() * particleCount) * 3;
-                
-                // Only connect if somewhat close to keep the sphere shape
-                const p1 = new THREE.Vector3(positions[idx1], positions[idx1+1], positions[idx1+2]);
-                const p2 = new THREE.Vector3(positions[idx2], positions[idx2+1], positions[idx2+2]);
-                
-                if (p1.distanceTo(p2) < 8) {
-                    linePos.push(p1.x, p1.y, p1.z);
-                    linePos.push(p2.x, p2.y, p2.z);
-                }
-            }
-            lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
-            const lines = new THREE.LineSegments(lineGeo, lineMaterial);
-            globe.add(lines); // Add lines to the globe object so they rotate together
-
-            // Mouse Interaction
-            let mouseX = 0;
-            let mouseY = 0;
-            let targetRotationX = 0;
-            let targetRotationY = 0;
-
-            const windowHalfX = window.innerWidth / 2;
-            const windowHalfY = window.innerHeight / 2;
-
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX - windowHalfX);
-                mouseY = (event.clientY - windowHalfY);
-            });
-
-            // Animation Loop
-            const animate = () => {
-                requestAnimationFrame(animate);
-
-                targetRotationY = mouseX * 0.0005;
-                targetRotationX = mouseY * 0.0005;
-
-                globe.rotation.y += 0.002 + (targetRotationY - globe.rotation.y) * 0.05;
-                globe.rotation.x += 0.001 + (targetRotationX - globe.rotation.x) * 0.05;
-
-                renderer.render(scene, camera);
-            };
-
-            animate();
-
-            // Resize handle
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        };
-
-        // --- 2. Scroll Animations ---
-        const initScrollAnimations = () => {
-            const reveals = document.querySelectorAll('.reveal');
-            
-            const revealOnScroll = () => {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 100;
-
-                reveals.forEach((reveal) => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveal.classList.add('active');
-                    }
-                });
-            };
-
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll(); // Trigger once on load
-        };
-
-        // Initialize Everything
-        window.addEventListener('DOMContentLoaded', () => {
-            initThreeJS();
-            initScrollAnimations();
-        });
-    </script>
 </body>
 </html>
